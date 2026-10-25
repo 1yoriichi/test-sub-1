@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serenova Clinic — Premium Multi-Specialty Healthcare</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   SERENOVA CLINIC — Premium multi-specialty health clinic
+   Single-file demo. Theming via CSS custom properties.
+   ============================================================ */
+
+:root{
+  /* Default: Trust Blue on White */
+  --primary:#1A6B9A;
+  --primary-dark:#13526f;
+  --primary-soft:#e8f2f8;
+  --accent:#3fb6c9;
+  --bg:#ffffff;
+  --surface:#f5f9fc;
+  --surface-2:#eef4f9;
+  --text:#16242e;
+  --muted:#5e7180;
+  --line:#e2eaf0;
+  --shadow:rgba(26,107,154,.12);
+  --shadow-strong:rgba(20,60,90,.18);
+
+  --font-head:'DM Sans', sans-serif;
+  --font-body:'Nunito', sans-serif;
+  --radius:18px;
+  --max:1180px;
+}
+
+body[data-theme="forest"]{
+  --primary:#2f7d4f; --primary-dark:#205c39; --primary-soft:#e6f3ea; --accent:#7cc08e;
+  --bg:#fbf8f1; --surface:#f4efe3; --surface-2:#ece5d4; --text:#1f2a22; --muted:#5f6d62;
+  --line:#e4ddcd; --shadow:rgba(47,125,79,.13); --shadow-strong:rgba(40,90,57,.18);
+}
+body[data-theme="purple"]{
+  --primary:#6a4fb6; --primary-dark:#4f3a8c; --primary-soft:#eee9f7; --accent:#a78fe0;
+  --bg:#f4f4f7; --surface:#ececf2; --surface-2:#e3e2ec; --text:#211d2e; --muted:#665f78;
+  --line:#dedce6; --shadow:rgba(106,79,182,.14); --shadow-strong:rgba(79,58,140,.2);
+}
+body[data-theme="teal"]{
+  --primary:#1d8a86; --primary-dark:#136663; --primary-soft:#e2f3f2; --accent:#5ec9c2;
+  --bg:#fbfdfc; --surface:#eef6f5; --surface-2:#e4f0ef; --text:#142624; --muted:#577069;
+  --line:#dceae8; --shadow:rgba(29,138,134,.13); --shadow-strong:rgba(19,102,99,.18);
+}
+body[data-theme="slate"]{
+  --primary:#2c3e63; --primary-dark:#1d2c4a; --primary-soft:#eaedf3; --accent:#6d83ad;
+  --bg:#ffffff; --surface:#f4f6fa; --surface-2:#eaeef4; --text:#172033; --muted:#5a6680;
+  --line:#e1e6ef; --shadow:rgba(44,62,99,.13); --shadow-strong:rgba(29,44,74,.2);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:var(--font-body);font-weight:400;line-height:1.7;
+  overflow-x:hidden;transition:background .5s ease,color .5s ease;
+}
+h1,h2,h3,h4{font-family:var(--font-head);font-weight:700;line-height:1.18;letter-spacing:-.01em}
+a{color:inherit;text-decoration:none}
+section{position:relative}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 1.6rem}
+
+.eyebrow{display:inline-block;text-transform:uppercase;letter-spacing:.2em;font-size:.74rem;
+  font-weight:700;color:var(--primary);background:var(--primary-soft);padding:.4rem .9rem;border-radius:50px;margin-bottom:1.1rem}
+.section-title{font-size:clamp(1.8rem,3.6vw,2.7rem);margin-bottom:.9rem}
+.section-sub{color:var(--muted);max-width:560px;font-size:1.05rem}
+.center{text-align:center}
+.center .section-sub{margin:0 auto}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font-head);font-weight:600;
+  font-size:.95rem;padding:.85rem 1.6rem;border-radius:50px;cursor:pointer;border:1.5px solid transparent;
+  transition:transform .25s ease,box-shadow .3s ease,background .3s ease,color .3s ease}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 8px 22px var(--shadow)}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px);box-shadow:0 12px 28px var(--shadow-strong)}
+.btn-ghost{background:transparent;color:var(--primary);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--primary);transform:translateY(-2px);background:var(--primary-soft)}
+.btn-sm{padding:.6rem 1.2rem;font-size:.85rem}
+
+/* Scroll progress */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:200;
+  background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+
+/* Navbar */
+header.nav{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 90%,transparent);
+  backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.nav.scrolled{border-color:var(--line);box-shadow:0 4px 20px var(--shadow)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:.9rem 1.6rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.logo{display:flex;align-items:center;gap:.6rem;font-family:var(--font-head);font-weight:700;font-size:1.25rem}
+.logo .mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));
+  display:grid;place-items:center;color:#fff;font-size:1.1rem;box-shadow:0 6px 16px var(--shadow)}
+.logo b{color:var(--primary)}
+.nav-links{display:none;gap:2rem;list-style:none}
+.nav-links a{font-weight:600;font-size:.95rem;color:var(--muted);position:relative;transition:color .25s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:100%;background:var(--primary);
+  transform:scaleX(0);transform-origin:right;transition:transform .3s cubic-bezier(.7,0,.2,1)}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+@media(min-width:920px){.nav-links{display:flex}}
+
+/* Hero */
+.hero{padding:3.5rem 0 4.5rem;background:
+  radial-gradient(60% 80% at 100% 0%, var(--primary-soft) 0%, transparent 60%),
+  linear-gradient(180deg,var(--bg),var(--surface))}
+.hero-grid{display:grid;gap:3rem;align-items:center}
+@media(min-width:920px){.hero-grid{grid-template-columns:1.05fr 1fr}.hero{padding:5rem 0 6rem}}
+.hero h1{font-size:clamp(2.2rem,5.2vw,3.7rem);margin-bottom:1.3rem}
+.hero h1 span{color:var(--primary)}
+.hero .sub{color:var(--muted);font-size:1.15rem;max-width:520px;margin-bottom:2rem}
+.hero-cta{display:flex;flex-wrap:wrap;gap:1rem}
+.hero-badges{display:flex;flex-wrap:wrap;gap:1.6rem;margin-top:2.4rem;color:var(--muted);font-size:.9rem;font-weight:600}
+.hero-badges span{display:flex;align-items:center;gap:.5rem}
+.hero-badges b{color:var(--primary);font-size:1.1rem}
+
+/* Abstract CSS vitals illustration */
+.vitals{position:relative;aspect-ratio:1/1;max-width:440px;margin:0 auto;width:100%}
+.vitals .ring{position:absolute;border-radius:50%;border:2px solid var(--line)}
+.r1{inset:0;background:radial-gradient(circle at 30% 30%,var(--primary-soft),transparent 70%)}
+.r2{inset:12%;border-color:color-mix(in srgb,var(--primary) 25%,transparent)}
+.r3{inset:26%;border-color:color-mix(in srgb,var(--accent) 35%,transparent)}
+.vitals .core{position:absolute;inset:36%;border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--accent));box-shadow:0 20px 50px var(--shadow-strong);
+  display:grid;place-items:center;color:#fff;font-size:2.6rem;animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.vitals .dot{position:absolute;width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 22%,transparent)}
+.d-a{top:6%;left:50%;animation:orbit 7s linear infinite}
+.d-b{bottom:10%;left:18%;background:var(--primary);box-shadow:0 0 0 6px color-mix(in srgb,var(--primary) 22%,transparent);animation:orbit 9s linear infinite reverse}
+.d-c{top:40%;right:2%;animation:orbit 11s linear infinite}
+@keyframes orbit{from{transform:rotate(0) translateX(6px) rotate(0)}to{transform:rotate(360deg) translateX(6px) rotate(-360deg)}}
+/* ECG line */
+.ecg{position:absolute;left:8%;right:8%;top:50%;height:60px;transform:translateY(-50%);overflow:hidden;opacity:.9}
+.ecg svg{width:200%;height:100%;animation:slide 4s linear infinite}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.vit-card{position:absolute;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:.7rem 1rem;
+  box-shadow:0 12px 30px var(--shadow);font-family:var(--font-head);font-weight:700;font-size:.85rem;display:flex;gap:.55rem;align-items:center}
+.vit-card small{display:block;color:var(--muted);font-weight:600;font-size:.7rem}
+.vc-1{top:4%;left:-6%;animation:bob 4s ease-in-out infinite}
+.vc-2{bottom:6%;right:-4%;animation:bob 4s ease-in-out infinite .8s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.vc-ic{width:30px;height:30px;border-radius:8px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}
+
+/* Services */
+.services{padding:5.5rem 0}
+.grid-3{display:grid;gap:1.4rem;grid-template-columns:1fr}
+@media(min-width:640px){.grid-3{grid-template-columns:1fr 1fr}}
+@media(min-width:940px){.grid-3{grid-template-columns:1fr 1fr 1fr}}
+.head-block{margin-bottom:3rem}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:2rem 1.8rem;
+  transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s}
+.card:hover{transform:translateY(-8px);box-shadow:0 24px 50px var(--shadow);border-color:color-mix(in srgb,var(--primary) 30%,transparent)}
+.svc-ic{width:58px;height:58px;border-radius:16px;background:var(--primary-soft);color:var(--primary);
+  display:grid;place-items:center;font-size:1.7rem;margin-bottom:1.2rem;transition:background .35s,color .35s}
+.card:hover .svc-ic{background:var(--primary);color:#fff}
+.card h3{font-size:1.2rem;margin-bottom:.5rem}
+.card p{color:var(--muted);font-size:.95rem}
+
+/* How it works */
+.how{padding:5.5rem 0;background:var(--surface)}
+.steps{display:grid;gap:2.5rem;grid-template-columns:1fr;position:relative;margin-top:3rem}
+@media(min-width:820px){.steps{grid-template-columns:repeat(3,1fr)}
+  .steps::before{content:"";position:absolute;top:34px;left:16%;right:16%;height:2px;
+    background:linear-gradient(90deg,var(--primary),var(--accent));opacity:.4;z-index:0}}
+.step{text-align:center;position:relative;z-index:1}
+.step .num{width:68px;height:68px;margin:0 auto 1.4rem;border-radius:50%;background:var(--bg);
+  border:2px solid var(--primary);color:var(--primary);font-family:var(--font-head);font-weight:700;font-size:1.5rem;
+  display:grid;place-items:center;box-shadow:0 10px 24px var(--shadow)}
+.step h3{font-size:1.2rem;margin-bottom:.5rem}
+.step p{color:var(--muted);font-size:.95rem;max-width:300px;margin:0 auto}
+
+/* Doctors */
+.doctors{padding:5.5rem 0}
+.doc-card{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:2.2rem;text-align:center;
+  transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+.doc-card:hover{transform:translateY(-8px);box-shadow:0 24px 50px var(--shadow)}
+.avatar{width:96px;height:96px;border-radius:50%;margin:0 auto 1.2rem;display:grid;place-items:center;
+  font-family:var(--font-head);font-weight:700;font-size:2rem;color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--accent));box-shadow:0 12px 28px var(--shadow)}
+.doc-card h3{font-size:1.25rem;margin-bottom:.2rem}
+.doc-spec{color:var(--primary);font-weight:700;font-size:.92rem;margin-bottom:.4rem}
+.doc-exp{color:var(--muted);font-size:.88rem;margin-bottom:1.3rem}
+.doc-card .btn{width:100%;justify-content:center}
+
+/* Stats */
+.stats{padding:3.5rem 0;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff}
+.stats-grid{display:grid;gap:2rem;grid-template-columns:1fr 1fr}
+@media(min-width:820px){.stats-grid{grid-template-columns:repeat(4,1fr)}}
+.stat{text-align:center}
+.stat .num{font-family:var(--font-head);font-weight:700;font-size:clamp(2rem,4vw,2.8rem);line-height:1}
+.stat .num .suffix{font-size:.7em}
+.stat .label{margin-top:.5rem;font-size:.92rem;opacity:.85;font-weight:600;letter-spacing:.02em}
+
+/* Testimonials */
+.testi{padding:5.5rem 0;background:var(--surface)}
+.tcard{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:2rem;
+  transition:transform .35s,box-shadow .35s}
+.tcard:hover{transform:translateY(-6px);box-shadow:0 20px 44px var(--shadow)}
+.stars{color:#f4b740;letter-spacing:.1em;margin-bottom:1rem}
+.tcard p{font-size:1.02rem;margin-bottom:1.5rem;color:var(--text)}
+.who{display:flex;align-items:center;gap:.9rem}
+.who .avatar{width:46px;height:46px;font-size:1rem;margin:0;box-shadow:none}
+.who b{display:block}
+.who small{color:var(--muted)}
+
+/* Appointment */
+.appt{padding:5.5rem 0}
+.appt-grid{display:grid;gap:3rem;align-items:start}
+@media(min-width:880px){.appt-grid{grid-template-columns:1fr 1.15fr}}
+.appt aside p{color:var(--muted);margin-bottom:1.2rem}
+.appt .infoline{display:flex;align-items:center;gap:.9rem;margin-bottom:1rem;font-weight:600}
+.appt .infoline .ic{width:42px;height:42px;border-radius:12px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;font-size:1.1rem}
+.appt .infoline small{display:block;color:var(--muted);font-weight:400}
+.form-card{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:2.4rem;box-shadow:0 24px 54px var(--shadow)}
+.field{margin-bottom:1.3rem}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
+@media(max-width:560px){.row2{grid-template-columns:1fr}}
+label{display:block;font-weight:700;font-family:var(--font-head);font-size:.82rem;margin-bottom:.5rem}
+input,select,textarea{width:100%;font-family:var(--font-body);font-size:.97rem;color:var(--text);
+  background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:.85rem 1rem;transition:border-color .25s,box-shadow .25s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px color-mix(in srgb,var(--primary) 16%,transparent)}
+textarea{resize:vertical;min-height:90px}
+select{appearance:none;cursor:pointer}
+.form-msg{margin-top:.9rem;text-align:center;color:var(--primary);font-weight:700;min-height:1.2rem}
+.form-card .btn{width:100%;justify-content:center;margin-top:.3rem}
+
+/* Footer */
+footer{background:var(--surface-2);border-top:1px solid var(--line);padding:4rem 0 2rem}
+.foot-grid{display:grid;gap:2.4rem;margin-bottom:3rem;grid-template-columns:1fr}
+@media(min-width:760px){.foot-grid{grid-template-columns:2fr 1fr 1fr 1.3fr}}
+.foot-logo{display:flex;align-items:center;gap:.6rem;font-family:var(--font-head);font-weight:700;font-size:1.3rem;margin-bottom:1rem}
+footer p,footer li{color:var(--muted);font-size:.93rem}
+footer h5{font-family:var(--font-head);font-size:.95rem;margin-bottom:1.1rem}
+footer ul{list-style:none}
+footer ul li{padding:.32rem 0}
+footer ul li a:hover{color:var(--primary)}
+.socials{display:flex;gap:.7rem;margin-top:1.2rem}
+.socials a{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);
+  color:var(--primary);transition:all .3s}
+.socials a:hover{background:var(--primary);color:#fff;transform:translateY(-3px)}
+.foot-bottom{border-top:1px solid var(--line);padding-top:1.6rem;text-align:center;color:var(--muted);font-size:.85rem}
+
+/* Theme picker */
+.theme-pick{position:fixed;bottom:1.5rem;right:1.5rem;z-index:150;display:flex;align-items:center}
+.theme-toggle{width:54px;height:54px;border-radius:50%;border:none;cursor:pointer;
+  background:var(--primary);color:#fff;font-size:1.4rem;display:grid;place-items:center;
+  box-shadow:0 12px 28px var(--shadow-strong);transition:transform .3s}
+.theme-toggle:hover{transform:rotate(45deg) scale(1.05)}
+.swatches{display:flex;gap:.55rem;align-items:center;background:var(--bg);border:1px solid var(--line);
+  border-radius:50px;padding:.55rem .7rem;margin-right:.7rem;box-shadow:0 12px 30px var(--shadow);
+  opacity:0;transform:translateX(20px) scale(.9);pointer-events:none;transition:all .35s cubic-bezier(.2,.7,.2,1)}
+.theme-pick.open .swatches{opacity:1;transform:none;pointer-events:auto}
+.sw{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform .2s,border-color .2s}
+.sw:hover{transform:scale(1.15)}
+.sw.active{border-color:var(--text)}
+.sw-blue{background:#1A6B9A}.sw-forest{background:#2f7d4f}.sw-purple{background:#6a4fb6}.sw-teal{background:#1d8a86}.sw-slate{background:#2c3e63}
+
+@media(max-width:600px){.hero,.services,.how,.doctors,.testi,.appt{padding-top:3.5rem;padding-bottom:3.5rem}}
+</style>
+</head>
+<body data-theme="blue">
+
+<div class="progress" id="progress"></div>
+
+<!-- ============ NAVBAR ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#home" class="logo"><span class="mark">✚</span> Sereno<b>va</b></a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#doctors">Doctors</a></li>
+        <li><a href="#testi">Reviews</a></li>
+        <li><a href="#appt">Contact</a></li>
+      </ul>
+    </nav>
+    <a href="#appt" class="btn btn-primary btn-sm">Book Appointment</a>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="eyebrow">Premium Multi-Specialty Care</span>
+      <h1>Your health, in <span>expert</span> hands.</h1>
+      <p class="sub">Serenova Clinic brings together leading specialists, modern diagnostics and genuinely personal care — all under one calm, welcoming roof.</p>
+      <div class="hero-cta">
+        <a href="#appt" class="btn btn-primary">Book an Appointment →</a>
+        <a href="#services" class="btn btn-ghost">Explore Services</a>
+      </div>
+      <div class="hero-badges">
+        <span><b>4.9★</b> Patient Rated</span>
+        <span><b>NABH</b> Accredited</span>
+        <span><b>24/7</b> Support</span>
+      </div>
+    </div>
+    <div class="reveal d2">
+      <div class="vitals">
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+        <div class="ecg">
+          <svg viewBox="0 0 200 60" preserveAspectRatio="none">
+            <polyline fill="none" stroke="currentColor" stroke-width="2.4" style="color:var(--primary)"
+              points="0,30 30,30 38,30 44,10 52,50 60,30 90,30 98,30 104,16 112,44 120,30 150,30 158,30 164,10 172,50 180,30 200,30"/>
+          </svg>
+        </div>
+        <div class="core">♥</div>
+        <div class="dot d-a"></div>
+        <div class="dot d-b"></div>
+        <div class="dot d-c"></div>
+        <div class="vit-card vc-1"><span class="vc-ic">♥</span><span>72 <small>bpm · pulse</small></span></div>
+        <div class="vit-card vc-2"><span class="vc-ic">🩺</span><span>120/80 <small>blood pressure</small></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="head-block center reveal">
+      <span class="eyebrow">Our Specialties</span>
+      <h2 class="section-title">Comprehensive care, all in one place</h2>
+      <p class="section-sub">From everyday wellness to specialist treatment, our departments are built around you.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal d1"><div class="svc-ic">🩺</div><h3>General Medicine</h3><p>Routine check-ups, diagnostics and primary care led by experienced physicians.</p></div>
+      <div class="card reveal d2"><div class="svc-ic">❤️</div><h3>Cardiology</h3><p>Heart screenings, ECG, and ongoing care to keep your cardiovascular health on track.</p></div>
+      <div class="card reveal d3"><div class="svc-ic">✨</div><h3>Dermatology</h3><p>Skin, hair and cosmetic treatments backed by clinical-grade expertise.</p></div>
+      <div class="card reveal d1"><div class="svc-ic">🧸</div><h3>Pediatrics</h3><p>Gentle, attentive care for infants, children and adolescents at every stage.</p></div>
+      <div class="card reveal d2"><div class="svc-ic">🦴</div><h3>Orthopedics</h3><p>Joint, bone and sports-injury treatment to keep you moving pain-free.</p></div>
+      <div class="card reveal d3"><div class="svc-ic">🧠</div><h3>Mental Health</h3><p>Confidential counselling and psychiatric support in a safe, judgment-free space.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="how" id="how">
+  <div class="wrap">
+    <div class="head-block center reveal">
+      <span class="eyebrow">Simple &amp; Stress-Free</span>
+      <h2 class="section-title">Getting care in three easy steps</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal d1"><div class="num">1</div><h3>Book Online</h3><p>Choose your specialty and a time that suits you — in under two minutes.</p></div>
+      <div class="step reveal d2"><div class="num">2</div><h3>Meet Your Doctor</h3><p>Visit our clinic or consult online with a specialist matched to your needs.</p></div>
+      <div class="step reveal d3"><div class="num">3</div><h3>Follow-Up Care</h3><p>Receive a clear plan, digital records and ongoing support every step of the way.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DOCTORS ============ -->
+<section class="doctors" id="doctors">
+  <div class="wrap">
+    <div class="head-block center reveal">
+      <span class="eyebrow">Meet The Team</span>
+      <h2 class="section-title">Specialists you can trust</h2>
+      <p class="section-sub">Board-certified doctors with decades of combined experience and a genuinely caring approach.</p>
+    </div>
+    <div class="grid-3">
+      <div class="doc-card reveal d1">
+        <div class="avatar">AR</div>
+        <h3>Dr. Aarav Rao</h3>
+        <div class="doc-spec">Cardiologist</div>
+        <div class="doc-exp">18 years experience · MD, DM (Cardiology)</div>
+        <a href="#appt" class="btn btn-ghost btn-sm">Book Consultation</a>
+      </div>
+      <div class="doc-card reveal d2">
+        <div class="avatar">MK</div>
+        <h3>Dr. Meera Kapoor</h3>
+        <div class="doc-spec">Dermatologist</div>
+        <div class="doc-exp">12 years experience · MD (Dermatology)</div>
+        <a href="#appt" class="btn btn-ghost btn-sm">Book Consultation</a>
+      </div>
+      <div class="doc-card reveal d3">
+        <div class="avatar">SN</div>
+        <h3>Dr. Sahil Nair</h3>
+        <div class="doc-spec">Pediatrician</div>
+        <div class="doc-exp">15 years experience · MD (Pediatrics)</div>
+        <a href="#appt" class="btn btn-ghost btn-sm">Book Consultation</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section class="stats" id="stats">
+  <div class="wrap stats-grid">
+    <div class="stat"><div class="num"><span class="count" data-target="10000">0</span><span class="suffix">+</span></div><div class="label">Patients Treated</div></div>
+    <div class="stat"><div class="num"><span class="count" data-target="15">0</span><span class="suffix">+</span></div><div class="label">Specialists</div></div>
+    <div class="stat"><div class="num"><span class="count" data-target="12">0</span></div><div class="label">Years of Care</div></div>
+    <div class="stat"><div class="num"><span class="count" data-target="98">0</span><span class="suffix">%</span></div><div class="label">Satisfaction</div></div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="testi" id="testi">
+  <div class="wrap">
+    <div class="head-block center reveal">
+      <span class="eyebrow">Patient Stories</span>
+      <h2 class="section-title">Loved by the people we care for</h2>
+    </div>
+    <div class="grid-3">
+      <div class="tcard reveal d1">
+        <div class="stars">★★★★★</div>
+        <p>"From booking to follow-up, everything felt calm and considered. My cardiologist explained every detail patiently. Truly premium care."</p>
+        <div class="who"><div class="avatar">PV</div><div><b>Priya Verma</b><small>Cardiology patient</small></div></div>
+      </div>
+      <div class="tcard reveal d2">
+        <div class="stars">★★★★★</div>
+        <p>"The pediatric team was so gentle with my daughter. Spotless clinic, zero waiting, and a doctor who actually listens."</p>
+        <div class="who"><div class="avatar">RK</div><div><b>Rohan Khanna</b><small>Parent</small></div></div>
+      </div>
+      <div class="tcard reveal d3">
+        <div class="stars">★★★★★</div>
+        <p>"I came for a skin consult and left feeling genuinely cared for. The whole experience is a step above any clinic I've visited."</p>
+        <div class="who"><div class="avatar">AS</div><div><b>Ananya Singh</b><small>Dermatology patient</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APPOINTMENT ============ -->
+<section class="appt" id="appt">
+  <div class="wrap appt-grid">
+    <aside class="reveal">
+      <span class="eyebrow">Book a Visit</span>
+      <h2 class="section-title">Schedule your appointment</h2>
+      <p>Tell us a little about what you need and we'll confirm your slot within the hour. Consultations from ₹2,000.</p>
+      <div class="infoline"><span class="ic">📍</span><span>Serenova Clinic, 4th Floor, Wellness Plaza<small>MG Road, Bengaluru 560001</small></span></div>
+      <div class="infoline"><span class="ic">📞</span><span>+91 80 4567 8900<small>Mon–Sat, 8 AM – 9 PM</small></span></div>
+      <div class="infoline"><span class="ic">✉️</span><span>care@serenovaclinic.in<small>We reply within 24 hours</small></span></div>
+    </aside>
+
+    <form class="form-card reveal d1" id="apptForm" novalidate>
+      <div class="row2">
+        <div class="field"><label for="name">Full Name</label><input id="name" type="text" placeholder="Your name" required></div>
+        <div class="field"><label for="phone">Phone Number</label><input id="phone" type="tel" placeholder="+91 ……" required></div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="specialty">Specialty</label>
+          <select id="specialty" required>
+            <option value="">Select…</option>
+            <option>General Medicine</option><option>Cardiology</option><option>Dermatology</option>
+            <option>Pediatrics</option><option>Orthopedics</option><option>Mental Health</option>
+          </select>
+        </div>
+        <div class="field"><label for="date">Preferred Date</label><input id="date" type="date" required></div>
+      </div>
+      <div class="field"><label for="msg">Message (optional)</label><textarea id="msg" placeholder="Briefly describe your concern…"></textarea></div>
+      <button type="submit" class="btn btn-primary">Confirm Appointment</button>
+      <p class="form-msg" id="formMsg"></p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo"><span class="mark" style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));display:grid;place-items:center;color:#fff">✚</span> Serenova</div>
+        <p>Premium multi-specialty healthcare built around comfort, clarity and genuine care.</p>
+        <div class="socials">
+          <a href="#" title="Instagram">◎</a><a href="#" title="Facebook">f</a><a href="#" title="X">✕</a><a href="#" title="LinkedIn">in</a>
+        </div>
+      </div>
+      <div>
+        <h5>Clinic</h5>
+        <ul><li><a href="#services">Services</a></li><li><a href="#doctors">Doctors</a></li><li><a href="#how">How It Works</a></li><li><a href="#testi">Reviews</a></li></ul>
+      </div>
+      <div>
+        <h5>Specialties</h5>
+        <ul><li>Cardiology</li><li>Dermatology</li><li>Pediatrics</li><li>Mental Health</li></ul>
+      </div>
+      <div>
+        <h5>Visit Us</h5>
+        <ul><li>Wellness Plaza, MG Road</li><li>Bengaluru 560001</li><li><a href="tel:+918045678900">+91 80 4567 8900</a></li><li><a href="mailto:care@serenovaclinic.in">care@serenovaclinic.in</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-bottom">© 2026 Serenova Clinic. All rights reserved. · A demo healthcare experience.</div>
+  </div>
+</footer>
+
+<!-- ============ THEME PICKER ============ -->
+<div class="theme-pick" id="themePick">
+  <div class="swatches" id="swatches">
+    <span class="sw sw-blue active" data-theme="blue" title="Trust Blue"></span>
+    <span class="sw sw-forest" data-theme="forest" title="Forest Green"></span>
+    <span class="sw sw-purple" data-theme="purple" title="Deep Purple"></span>
+    <span class="sw sw-teal" data-theme="teal" title="Teal"></span>
+    <span class="sw sw-slate" data-theme="slate" title="Slate Navy"></span>
+  </div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Change colour theme">🎨</button>
+</div>
+
+<script>
+/* ---------- Scroll progress + nav state ---------- */
+const progress=document.getElementById('progress');
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  const scrolled=(h.scrollTop)/(h.scrollHeight-h.clientHeight)*100;
+  progress.style.width=scrolled+'%';
+  nav.classList.toggle('scrolled',h.scrollTop>10);
+});
+
+/* ---------- Reveal on scroll ---------- */
+const io=new IntersectionObserver((es)=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+},{threshold:.14});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- Count-up stats ---------- */
+function countUp(el){
+  const target=+el.dataset.target;
+  const dur=1600, start=performance.now();
+  function tick(now){
+    const p=Math.min((now-start)/dur,1);
+    const eased=1-Math.pow(1-p,3);
+    const val=Math.floor(eased*target);
+    el.textContent=val.toLocaleString('en-IN');
+    if(p<1)requestAnimationFrame(tick); else el.textContent=target.toLocaleString('en-IN');
+  }
+  requestAnimationFrame(tick);
+}
+const statObs=new IntersectionObserver((es)=>{
+  es.forEach(e=>{if(e.isIntersecting){countUp(e.target);statObs.unobserve(e.target);}});
+},{threshold:.5});
+document.querySelectorAll('.count').forEach(el=>statObs.observe(el));
+
+/* ---------- Appointment form ---------- */
+const form=document.getElementById('apptForm');
+const formMsg=document.getElementById('formMsg');
+document.getElementById('date').valueAsDate=new Date();
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=document.getElementById('name').value.trim();
+  const phone=document.getElementById('phone').value.trim();
+  const spec=document.getElementById('specialty').value;
+  if(!name||!phone||!spec){formMsg.textContent='Please fill in your name, phone and specialty.';return;}
+  formMsg.textContent='Thank you, '+name.split(' ')[0]+'! Your '+spec+' appointment request is received — we’ll confirm shortly.';
+  form.reset();
+  document.getElementById('date').valueAsDate=new Date();
+});
+
+/* ---------- Theme picker ---------- */
+const pick=document.getElementById('themePick');
+const toggle=document.getElementById('themeToggle');
+toggle.addEventListener('click',()=>pick.classList.toggle('open'));
+document.querySelectorAll('.sw').forEach(sw=>{
+  sw.addEventListener('click',()=>{
+    document.body.setAttribute('data-theme',sw.dataset.theme);
+    document.querySelectorAll('.sw').forEach(s=>s.classList.remove('active'));
+    sw.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
